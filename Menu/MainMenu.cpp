@@ -401,6 +401,7 @@ void MainMenu::allInformationMenu(vector<Staff*> staffs, vector<Manager*> manage
 
 void MainMenu::displayManagerIn4(vector<Manager*> managers)
 {
+    cout << "Id - Name - Work Hour - Money Per Hour - Work Done Amount - Unfinshed Work Amount - Not Assigned Work Amount" << endl;
     for (int i = 0; i < managers.size(); i++)
     {
         managers[i]->displayPublicInfo();
@@ -409,6 +410,7 @@ void MainMenu::displayManagerIn4(vector<Manager*> managers)
 
 void MainMenu::displayStaffIn4(vector<Staff*> staffs)
 {
+    cout << "Id - Name - Credit Point - Current Level - Work Hour - Money Per Hour - Work Done - Work Unfinished - Total Money From Work Hour - Total Money from Work Done - Total Salary" << endl;
     for (int i = 0; i < staffs.size(); i++)
     {
         staffs[i]->displayPublicInfo();

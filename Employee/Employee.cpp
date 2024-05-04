@@ -104,7 +104,7 @@ void Employee::removeWorkUF(Work* work)
 {
     for (int i = 0; i < this->workUFList.size(); i++)
     {
-        if (this->workUFList[i] == work)
+        if (this->workUFList[i]->getId() == work->getId())
         {
             this->workUFList.erase(this->workUFList.begin() + i);
             return;

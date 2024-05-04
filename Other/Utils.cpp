@@ -252,6 +252,8 @@ void WriteWorkFile(Work* work)
     string name = work->getName();
     string creditPoint = to_string(work->getCreditPoint());
     string money = to_string(work->getMoney());
+    string managerId = to_string(work->getManagerId());
+    string staffId = to_string(work->getStaffId());
 
     string filePath = "Data/Work/" + id + ".txt";
 
@@ -261,6 +263,8 @@ void WriteWorkFile(Work* work)
     file << name << endl;
     file << creditPoint << endl;
     file << money << endl;
+    file << managerId << endl;
+    file << staffId << endl;
 
     file.close();
 }
@@ -275,15 +279,19 @@ Work* ReadWorkFile(string id)
     string nameStr;
     string creditPointStr;
     string moneyStr;
+    string managerIdStr;
+    string staffIdStr;
 
     getline(file, idStr);
     getline(file, nameStr);
     getline(file, creditPointStr);
     getline(file, moneyStr);
+    getline(file, managerIdStr);
+    getline(file, staffIdStr);
 
     file.close();
 
-    return new Work(stoi(creditPointStr), stof(moneyStr), nameStr, stoi(idStr));
+    return new Work(stoi(creditPointStr), stof(moneyStr), stoi(managerIdStr), stoi(staffIdStr), nameStr, stoi(idStr));
 }
 
 vector<Work*> ReadAllWorkFile()
