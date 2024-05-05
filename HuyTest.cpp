@@ -37,6 +37,8 @@ int main()
     staffs = ReadAllStaffFile();
     managers = ReadAllManagerFile();
 
+    Staff().getCurrLevel()->setEmployeeLevels(employeeLevels);
+
     while(true)
     {
         int choice = mainMenu.mainMenu();
@@ -131,6 +133,7 @@ int main()
 
             // Update Level File List
             employeeLevels = ReadAllLevelFile();
+            Staff().getCurrLevel()->setEmployeeLevels(employeeLevels);
         }
         
         //======================================All Information=======================================

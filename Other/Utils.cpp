@@ -1,9 +1,9 @@
 #pragma once
 #include <iostream>
+#include <string>
 #include <limits>
 #include <cstdlib>
 #include <conio.h>
-#include <string>
 #include <ctime>
 #include <fstream>
 #include <vector>
@@ -253,7 +253,6 @@ void WriteWorkFile(Work* work)
     string creditPoint = to_string(work->getCreditPoint());
     string money = to_string(work->getMoney());
     string managerId = to_string(work->getManagerId());
-    string staffId = to_string(work->getStaffId());
 
     string filePath = "Data/Work/" + id + ".txt";
 
@@ -264,7 +263,6 @@ void WriteWorkFile(Work* work)
     file << creditPoint << endl;
     file << money << endl;
     file << managerId << endl;
-    file << staffId << endl;
 
     file.close();
 }
@@ -280,18 +278,16 @@ Work* ReadWorkFile(string id)
     string creditPointStr;
     string moneyStr;
     string managerIdStr;
-    string staffIdStr;
 
     getline(file, idStr);
     getline(file, nameStr);
     getline(file, creditPointStr);
     getline(file, moneyStr);
     getline(file, managerIdStr);
-    getline(file, staffIdStr);
 
     file.close();
 
-    return new Work(stoi(creditPointStr), stof(moneyStr), stoi(managerIdStr), stoi(staffIdStr), nameStr, stoi(idStr));
+    return new Work(stoi(creditPointStr), stof(moneyStr), stoi(managerIdStr), nameStr, stoi(idStr));
 }
 
 vector<Work*> ReadAllWorkFile()
@@ -621,4 +617,10 @@ vector<Staff*> ReadAllStaffFile()
     Manager().setStaffs(staffs);
 
     return staffs;
+}
+
+void RemoveStaffFile(string id)
+{
+    string filePath = "Data/Staff/" + id + ".txt";
+    if (fs::exists(filePath)) fs::remove(filePath);
 }

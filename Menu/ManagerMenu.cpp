@@ -67,7 +67,7 @@ void ManagerMenu::assignWorkMenu(vector<Staff*> staffs, Manager* manager)
     if (chosenStaff == nullptr) return;
 
     vector<Work*> works = manager->getNotAssignedWorks();
-    Work* chosenWork = this->displayChooseWork(works, chosenStaff, manager);
+    Work* chosenWork = this->displayChooseWork(works, manager);
 
     if (chosenWork == nullptr)
     {
@@ -110,7 +110,7 @@ Staff* ManagerMenu::displayChooseStaff(vector<Staff*> staffs)
     return staffs[choice - 1];
 }
 
-Work* ManagerMenu::displayChooseWork(vector<Work*> works, Staff* chosenStaff, Manager* manager)
+Work* ManagerMenu::displayChooseWork(vector<Work*> works, Manager* manager)
 {
     clearScreen();
 
@@ -118,7 +118,7 @@ Work* ManagerMenu::displayChooseWork(vector<Work*> works, Staff* chosenStaff, Ma
     coutContent("0. Create New Work", "=");
     for (int i = 0; i < works.size(); i++)
     {
-        string content = i + 1 + ". " + works[i]->getName();
+        string content = to_string(i + 1) + ". " + works[i]->getName();
         coutContent(content, "=");
     }
 
@@ -127,30 +127,28 @@ Work* ManagerMenu::displayChooseWork(vector<Work*> works, Staff* chosenStaff, Ma
     if (!cinInt(&choice) || choice < 0 || choice > works.size())
     {
         this->displayWrongInput();
-        return this->displayChooseWork(works, chosenStaff, manager);
+        return this->displayChooseWork(works, manager);
     }
 
     if (choice == 0) 
     {
-        return this->displayCreateNewWork(chosenStaff, manager);
+        return this->displayCreateNewWork(manager);
     }
 
     return works[choice - 1];
 }
 
-Work* ManagerMenu::displayCreateNewWork(Staff* chosenStaff, Manager* manager)
+Work* ManagerMenu::displayCreateNewWork(Manager* manager)
 {
     clearScreen();
 
     int managerId = manager->getId();
-    int staffId = chosenStaff->getId();
     string name = "_____";
     int bonusCreditPoint = -1;
     float bonusMoney = -1;
     int id = -1;
 
     string managerIdStr = to_string(managerId);
-    string staffIdStr = to_string(staffId);
     string bonusCreditPointStr = "_____";
     string bonusMoneyStr = "_____";
     string idStr = "_____";
@@ -165,7 +163,6 @@ Work* ManagerMenu::displayCreateNewWork(Staff* chosenStaff, Manager* manager)
 
         coutTitle("Create New Work", "=");
         coutContent("Manager Id: " + managerIdStr, "=");
-        coutContent("Staff Id: " + staffIdStr, "=");
         coutContent("Name: " + name, "=");
         coutContent("Bonus Credit Point: " + bonusCreditPointStr, "=");
         coutContent("Bonus Money: " + bonusMoneyStr, "=");
@@ -229,7 +226,7 @@ Work* ManagerMenu::displayCreateNewWork(Staff* chosenStaff, Manager* manager)
         }
     }
 
-    Work* newWork = new Work(bonusCreditPoint, bonusMoney, managerId, staffId, name, id);
+    Work* newWork = new Work(bonusCreditPoint, bonusMoney, managerId, name, id);
     return newWork;
 }
 

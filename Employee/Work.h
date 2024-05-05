@@ -12,22 +12,18 @@ class Work : public Stat
     int creditPoint;
     float money;
     int managerId;
-    int staffId;
 
     public:
     //========================================Constructor=========================================
     Work();
-    Work(int creditPoint, float money, int managerId, int staffId, string name, int id);
+    Work(int creditPoint, float money, int managerId, string name, int id);
 
     //============================================Get=============================================
     int getCreditPoint() const;
     float getMoney() const;
     int getManagerId() const;
-    int getStaffId() const;
-
     //============================================Set=============================================
     void setCreditPoint(int creditPoint);
     void setMoney(float money);
     void setManagerId(int managerId);
-    void setStaffId(int staffId);
 };

@@ -28,8 +28,8 @@ class ManagerMenu
     //Assign work
     void displayAssignWork();
     Staff* displayChooseStaff(vector<Staff*>);
-    Work* displayChooseWork(vector<Work*>, Staff*, Manager*);
-    Work* displayCreateNewWork(Staff*, Manager*);
+    Work* displayChooseWork(vector<Work*>, Manager*);
+    Work* displayCreateNewWork(Manager*);
 
     //Pay salary
     bool displayPaySalary();

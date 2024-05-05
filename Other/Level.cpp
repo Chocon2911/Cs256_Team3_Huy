@@ -41,6 +41,11 @@ void Level::setLevelCode(LevelCode levelCode)
     this->levelCode = levelCode;
 }
 
+void Level::setEmployeeLevels(vector<EmployeeLevel*> employeeLevels)
+{
+    this->employeeLevels = employeeLevels;
+}
+
 void Level::addEmployeeLevel(EmployeeLevel* employeeLevel)
 {
     this->employeeLevels.push_back(employeeLevel);
@@ -63,8 +68,8 @@ void Level::removeEmployeeLevel(EmployeeLevel* deleteEmployeeLevel)
 //========================================Modify Level========================================
 bool Level::Promote()
 {
-    if (this->levelCode >= this->employeeLevels.size() - 1) return false;
-    if (this->currCreditPoint < this->employeeLevels[this->levelCode]->getCreditPointRequired()) return false;
+    if (this->levelCode >= this->employeeLevels.size()) return false;
+    if (this->currCreditPoint < this->employeeLevels[this->levelCode - 1]->getCreditPointRequired()) return false;
     
     this->levelCode = static_cast<LevelCode>(static_cast<int>(this->levelCode) + 1);
     return true;

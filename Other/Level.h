@@ -24,6 +24,7 @@ class Level
 
     void setCurrCreditPoint(int currCreditPoint);
     void setLevelCode(LevelCode levelCode);
+    void setEmployeeLevels(vector<EmployeeLevel*> employeeLevels);
     void addEmployeeLevel(EmployeeLevel* employeeLevel);
     void removeEmployeeLevel(EmployeeLevel* deleteEmployeeLevel);
 

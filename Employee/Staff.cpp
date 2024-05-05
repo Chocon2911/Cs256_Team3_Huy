@@ -127,12 +127,12 @@ void Staff::removeAccount()
     for (int i = 0; i < this->getWorkUFs().size(); i++)
     {
         Manager* manager = ReadManagerFile(to_string(this->getWorkUFs()[i]->getManagerId()));
-        Staff* staff = ReadStaffFile(to_string(this->getWorkUFs()[i]->getStaffId()));
+        Staff* staff = this;
 
         manager->removeWorkUF(this->getWorkUFs()[i]);
         manager->addNotAssignedWorks(this->getWorkUFs()[i]);
 
         WriteManagerFile(manager);
-        WriteStaffFile(staff);
+        RemoveStaffFile(to_string(this->getId()));
     }
 }

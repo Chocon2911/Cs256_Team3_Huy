@@ -28,7 +28,14 @@ void StaffMenu::mainMenu(Staff* staff)
         {
             this->demoteMenu(staff);
         }
+
         else if (choice == 6)
+        {
+            if (!this->removeAccountMenu(staff)) continue;
+            break;
+        }
+
+        else if (choice == 7)
         {
             if (!this->quitMenu()) continue;
             break;
@@ -52,9 +59,10 @@ int StaffMenu::displayMain()
     coutContent("3. Pay Salary", "=");
     coutContent("4. Promote", "=");
     coutContent("5. Demote", "=");
-    coutContent("6. Quit", "=");
+    coutContent("6. Remove Account", "=");
+    coutContent("7. Quit", "=");
     cout << "Enter Choice: ";
-    if (!cinInt(&choice) || choice < 1 || choice > 6)
+    if (!cinInt(&choice) || choice < 1 || choice > 7)
     {
         this->wrongInput();
         return this->displayMain();
@@ -115,15 +123,15 @@ void StaffMenu::displayAddWorkHourAmount(Staff* staff, float addWorkHour)
 //==========================================Promote===========================================
 void StaffMenu::promoteMenu(Staff* staff)
 {
-    int nextLevelIndex = staff->getCurrLevel()->getLevelCode() + 1;
-    if (nextLevelIndex > staff->getCurrLevel()->getEmployeeLevels().size() - 1)
+    int nextLevelIndex = int(staff->getCurrLevel()->getLevelCode()) + 1;
+    if (nextLevelIndex > staff->getCurrLevel()->getEmployeeLevels().size())
     {
         //Can make it upgrade to Manager
         this->displayCantPromote();
         return;
     }
 
-    EmployeeLevel* nextLevel = staff->getCurrLevel()->getEmployeeLevels()[nextLevelIndex];
+    EmployeeLevel* nextLevel = staff->getCurrLevel()->getEmployeeLevels()[nextLevelIndex - 1];
     int creditPointRequired2LevelUp = nextLevel->getCreditPointRequired();
     float nextLevelMoneyPerHour = nextLevel->getMoneyPerWorkHour(); 
     LevelCode currLevelCode = staff->getCurrLevel()->getLevelCode();
@@ -137,8 +145,6 @@ void StaffMenu::promoteMenu(Staff* staff)
     if (!choice)
     {
         this->displayRefusePromote();
-        cout << "Press any key to continue..." << endl;
-        pressAnyKey();
         return;
     }
 
@@ -146,8 +152,7 @@ void StaffMenu::promoteMenu(Staff* staff)
     {
         this->displayAcceptPromote();
         staff->getCurrLevel()->Promote();
-        cout << "Press any key to continue..." << endl;
-        pressAnyKey();
+        WriteStaffFile(staff);
         return;
     }
 }
@@ -209,7 +214,7 @@ void StaffMenu::displayCantPromote()
 //===========================================Demote===========================================
 void StaffMenu::demoteMenu(Staff* staff)
 {
-    int prevLevelIndex = staff->getCurrLevel()->getLevelCode() - 1;
+    int prevLevelIndex = int(staff->getCurrLevel()->getLevelCode()) - 1;
     if (prevLevelIndex <= 1)
     {
         //Can make it upgrade to Manager
@@ -231,8 +236,6 @@ void StaffMenu::demoteMenu(Staff* staff)
     if (!choice)
     {
         this->displayRefuseDemote();
-        cout << "Press any key to continue..." << endl;
-        pressAnyKey();
         return;
     }
 
@@ -240,8 +243,7 @@ void StaffMenu::demoteMenu(Staff* staff)
     {
         staff->getCurrLevel()->Demote();
         this->displayAcceptDemote();
-        cout << "Press any key to continue..." << endl;
-        pressAnyKey();
+        WriteStaffFile(staff);
         return;
     }
 }
@@ -293,12 +295,16 @@ void StaffMenu::displayRefuseDemote()
 {
     clearScreen();
     cout << "Staff didn't level up" << endl;
+    cout << "Press any key to continue..." << endl;
+    pressAnyKey();
 }
 
 void StaffMenu::displayAcceptDemote()
 {
     clearScreen();
     cout << "Staff has been level up successfully" << endl;
+    cout << "Press any key to continue..." << endl;
+    pressAnyKey();
 }
 
 //=========================================Pay Salary=========================================
@@ -396,6 +402,8 @@ bool StaffMenu::removeAccountMenu(Staff* staff)
 
 bool StaffMenu::displayRemoveAccount()
 {
+    clearScreen();
+
     coutTitle("Remove Account", "=");
     coutContent("Do you want to remove this account?", "=");
     coutContent("1. Yes", "=");
