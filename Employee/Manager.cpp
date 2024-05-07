@@ -84,8 +84,12 @@ void Manager::displayPrivateInfo()
 {
     string idStr = to_string(this->getId());
     string nameStr = this->getName();
+
     string workHourStr = to_string(this->getWorkHour());
+    removeLast4Char(&workHourStr);
+
     string moneyPerHourStr = to_string(this->getMoneyPerHour());
+    removeLast4Char(&moneyPerHourStr);
 
     coutTitle("Manager Information", "=");
     cout << "Id: " + idStr << endl;
@@ -103,7 +107,10 @@ void Manager::displayPrivateInfo()
         string workDoneId = to_string(this->getWorkDones()[i]->getId());
         string workDoneName = this->getWorkDones()[i]->getName();
         string workDoneCreditPoint = to_string(this->getWorkDones()[i]->getCreditPoint());
+
         string workDoneMoney = to_string(this->getWorkDones()[i]->getMoney());
+        removeLast4Char(&workDoneMoney);
+        workDoneMoney += "$";
 
         cout << i + 1 << ". " << workDoneId << " - " << workDoneName << " - " << workDoneCreditPoint << " - " << workDoneMoney << endl;
     }
@@ -118,7 +125,10 @@ void Manager::displayPrivateInfo()
         string workUFId = to_string(this->getWorkUFs()[i]->getId());
         string workUFName = this->getWorkUFs()[i]->getName();
         string workUFCreditPoint = to_string(this->getWorkUFs()[i]->getCreditPoint());
+
         string workUFMoney = to_string(this->getWorkUFs()[i]->getMoney());
+        removeLast4Char(&workUFMoney);
+        workUFMoney += "$";
 
         cout << i + 1 << ". " << workUFId << " - " << workUFName << " - " << workUFCreditPoint << " - " << workUFMoney << endl;
     }
@@ -133,7 +143,10 @@ void Manager::displayPrivateInfo()
         string notAssignedWorkId = to_string(this->getNotAssignedWorks()[i]->getId());
         string notAssignedWorkName = this->getNotAssignedWorks()[i]->getName();
         string notAssignedWorkCreditPoint = to_string(this->getNotAssignedWorks()[i]->getCreditPoint());
+
         string notAssignedWorkMoney = to_string(this->getNotAssignedWorks()[i]->getMoney());
+        removeLast4Char(&notAssignedWorkMoney);
+        notAssignedWorkMoney += "$";
 
         cout << i + 1 << ". " << notAssignedWorkId << " - " << notAssignedWorkName << " - " << notAssignedWorkCreditPoint << " - " << notAssignedWorkMoney << endl;
     }
@@ -143,8 +156,13 @@ void Manager::displayPublicInfo()
 {
     string idStr = to_string(this->getId());
     string nameStr = this->getName();
+
     string workHourStr = to_string(this->getWorkHour());
+    removeLast4Char(&workHourStr);
+
     string moneyPerHourStr = to_string(this->getMoneyPerHour());
+    removeLast4Char(&moneyPerHourStr);
+
     string workDoneAmountStr = to_string(this->getWorkDones().size());
     string workUFAmountStr = to_string(this->getWorkUFs().size());
     string notAssignedWorkAmountStr = to_string(this->getNotAssignedWorks().size());

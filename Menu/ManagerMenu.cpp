@@ -10,9 +10,11 @@ void ManagerMenu::mainMenu(Manager* manager)
         int choice = this->displayMain(manager);
 
         if (choice == 1) this->informationMenu(manager);
-        else if (choice == 2) this->assignWorkMenu(manager->getStaffs(), manager);
-        else if (choice == 3) this->paySalaryMenu(manager);
-        else if (choice == 4) 
+        else if (choice == 2) this->addWorkHourMenu(manager);
+        else if (choice == 3) this->setMoneyPerWorkHourMenu(manager);
+        else if (choice == 4) this->assignWorkMenu(manager->getStaffs(), manager);
+        else if (choice == 5) this->paySalaryMenu(manager);
+        else if (choice == 6) 
         {
             this->quitMenu();
             return;
@@ -26,14 +28,16 @@ int ManagerMenu::displayMain(Manager* manager)
 
     coutTitle("Manager Menu", "=");
     coutContent("1. Information", "=");
-    coutContent("2. Assign Work", "=");
-    coutContent("3. Pay Salary", "=");
-    coutContent("4. Quit", "=");
+    coutContent("2. Add Work Hour", "=");
+    coutContent("3. Set Money Per Work Hour", "=");
+    coutContent("4. Assign Work", "=");
+    coutContent("5. Pay Salary", "=");
+    coutContent("6. Quit", "=");
     
     cout << "Enter your choice: ";
     int choice = -1;
 
-    if (!cinInt(&choice) || choice < 1 || choice > 4)
+    if (!cinInt(&choice) || choice < 1 || choice > 6)
     {
         this->displayWrongInput();
         return this->displayMain(manager);
@@ -54,6 +58,75 @@ void ManagerMenu::informationMenu(Manager* manager)
 void ManagerMenu::displayInformation(Manager* manager)
 {
     manager->displayPrivateInfo();
+}
+
+//=======================================Add Work Hour========================================
+void ManagerMenu::addWorkHourMenu(Manager* manager)
+{
+    this->displayAddWorkHour(manager, 0);
+}
+
+void ManagerMenu::displayAddWorkHour(Manager* manager, float addWorkHour)
+{
+    clearScreen();
+
+    string workHourStr = "_____";
+    if (addWorkHour > 0) workHourStr = to_string(addWorkHour);
+
+    coutTitle("Add Work Hour Amount", "=");
+    coutContent("Add Work Hour Amoount: " + workHourStr + " (hour)", "=");
+
+    if (addWorkHour <= 0)
+    {
+        cout << "Enter Add Work Hour Amount: ";
+        if (!cinFloat(&addWorkHour))
+        {
+            addWorkHour = 0;
+        }
+
+        this->displayAddWorkHour(manager, addWorkHour);
+    }
+
+    else
+    {
+        manager->addWorkHour(addWorkHour);
+        WriteManagerFile(manager);
+
+        cout << "Add Work Hour Success!" << endl;
+        cout << "Press any key to continue..." << endl;
+        pressAnyKey();
+    }
+}
+
+//==================================Set Money Per Work Hour===================================
+void ManagerMenu::setMoneyPerWorkHourMenu(Manager* manager)
+{
+    this->displaySetMoneyPerWorkHour(manager, -1);
+}
+
+void ManagerMenu::displaySetMoneyPerWorkHour(Manager* manager, float moneyPerWorkHour)
+{
+    clearScreen();
+
+    coutTitle("Set Money Per Work Hour", "=");
+    if (moneyPerWorkHour > 0)
+    {
+        coutContent("Money Per Work Hour: " + to_string(moneyPerWorkHour), "=");
+        manager->setMoneyPerHour(moneyPerWorkHour);
+        WriteManagerFile(manager);
+        this->displayPressAnyKey();
+    }
+
+    else
+    {
+        cout << "Enter Money Per Work Hour: ";
+        if (!cinFloat(&moneyPerWorkHour))
+        {
+            moneyPerWorkHour = -1;
+            this->displayWrongInput();
+        }
+        return this->displaySetMoneyPerWorkHour(manager, moneyPerWorkHour);
+    }
 }
 
 //========================================Assign Work=========================================
@@ -233,7 +306,6 @@ Work* ManagerMenu::displayCreateNewWork(Manager* manager)
 //=========================================Pay Salary=========================================
 void ManagerMenu::paySalaryMenu(Manager* manager)
 {
-    this->displayPaySalary();
     bool choice = this->displayPaySalary();
 
     if (choice)
@@ -262,8 +334,13 @@ bool ManagerMenu::displayPaySalary()
 
     int choice = -1;
     cout << "Enter your choice: ";
-    if (!cinInt(&choice) || choice <= 0 || choice >= 3)
+    if (!cinInt(&choice))
     {
+        if (choice < 1 || choice > 2)
+        {
+            cout << "The choice must be in range 1 - 2" << endl;
+        }
+
         this->displayWrongInput();
         return this->displayPaySalary();
     }

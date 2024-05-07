@@ -13,6 +13,7 @@ class StaffMenu
     void mainMenu(Staff* staff);
     void informationMenu(Staff* staff);
     void addWorkHourAmountMenu(Staff* staff);
+    void finishWorkMenu(Staff* staff);
     void promoteMenu(Staff* staff);
     void demoteMenu(Staff* staff);
     void paySalaryMenu(Staff* staff);
@@ -20,14 +21,17 @@ class StaffMenu
     bool quitMenu();
 
     //==========================================Display===========================================
-    //Main
+    // Main
     int displayMain();
 
-    //Information Menu
+    // Information Menu
     void displayInformation(Staff* staff);
 
-    //Add Work Hour Amount Menu
+    // Add Work Hour Amount Menu
     void displayAddWorkHourAmount(Staff* staff, float addWorkHour);
+
+    // Modify Work Menu
+    int displayChooseWork(Staff* staff);
 
     // Promote
     bool displayPromote(string nextLevelCode, string nextLevelCreditPoint, string nextLevelMoneyPerHour);

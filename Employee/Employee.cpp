@@ -133,5 +133,10 @@ void Employee::removeAllWorkHour()
 
 void Employee::removeAllWorkDone()
 {
+    for (int i = 0; i < this->workDoneList.size(); i++)
+    {
+        RemoveWorkFile(to_string(this->workDoneList[i]->getId()));
+    }
+    
     this->workDoneList.clear();
 }

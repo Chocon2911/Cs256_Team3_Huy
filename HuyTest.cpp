@@ -147,6 +147,12 @@ int main()
         //============================================Exit============================================
         else if (choice == 5)
         {
+            // Display all information
+            staffs = ReadAllStaffFile();
+            managers = ReadAllManagerFile();
+            mainMenu.allInformationMenu(staffs, managers);
+
+            // Exit
             mainMenu.exitMenu();
             break;
         }

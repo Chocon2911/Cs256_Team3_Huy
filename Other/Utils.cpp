@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <limits>
 #include <cstdlib>
@@ -8,6 +9,7 @@
 #include <fstream>
 #include <vector>
 #include <filesystem>
+#include <cmath>
 namespace fs = std::filesystem;
 
 // Other
@@ -22,6 +24,17 @@ namespace fs = std::filesystem;
 #include "../Employee/Staff.h"
 #include "../Employee/Work.h"
 using namespace std;
+
+//===========================================Other============================================
+float roundFloat2Dec(float number)
+{
+    return roundf(number * 100) / 100;
+}
+
+void removeLast4Char(string* str)
+{
+    if (str->size() >= 4) str->erase(str->end() - 4, str->end());
+}
 
 //============================================Cin=============================================
 bool cinInt(int* number)
@@ -45,6 +58,8 @@ bool cinFloat(float* number)
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
         return false;
     }
+
+    *number = roundFloat2Dec(*number);
     return true;
 }
 
@@ -315,6 +330,12 @@ vector<Work*> ReadAllWorkFile()
     return works;
 }
 
+void RemoveWorkFile(string id)
+{
+    string filePath = "Data/Work/" + id + ".txt";
+    if (fs::exists(filePath)) fs::remove(filePath);
+}
+
 //==========================================Manager===========================================
 void WriteManagerFile(Manager* manager)
 {
@@ -331,7 +352,7 @@ void WriteManagerFile(Manager* manager)
     ofstream file(filePath);
     file << id << endl;
     file << name << endl;
-    file << workHour << endl;
+    file << roundFloat2Dec(manager->getWorkHour()) << endl;
     file << moneyPerHour << endl;
 
     // Unfinished Work
@@ -479,7 +500,7 @@ void WriteStaffFile(Staff* staff)
 {
     string id = to_string(staff->getId());
     string name = staff->getName();
-    string workHour = to_string(staff->getWorkHour());
+    string workHour = to_string(roundf(staff->getWorkHour()) * 100);
     string moneyPerHour = to_string(staff->getMoneyPerHour());
 
     Level* currLevel = staff->getCurrLevel();

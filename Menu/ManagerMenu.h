@@ -13,6 +13,8 @@ class ManagerMenu
     //============================================Menu============================================
     void mainMenu(Manager* manager);
     void informationMenu(Manager* manager);
+    void addWorkHourMenu(Manager* manager);
+    void setMoneyPerWorkHourMenu(Manager* manager);
     void assignWorkMenu(vector<Staff*> staffs, Manager* manager);
     void paySalaryMenu(Manager* manager);
     void removeAccount();
@@ -24,6 +26,12 @@ class ManagerMenu
 
     //Information
     void displayInformation(Manager* manager);
+
+    // add work hour
+    void displayAddWorkHour(Manager* manager, float addWorkHour);
+
+    // set money per hour
+    void displaySetMoneyPerWorkHour(Manager* manager, float moneyPerWorkHour);
 
     //Assign work
     void displayAssignWork();

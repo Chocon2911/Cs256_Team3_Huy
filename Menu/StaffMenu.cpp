@@ -18,24 +18,28 @@ void StaffMenu::mainMenu(Staff* staff)
         }
         else if (choice == 3)
         {
-            this->paySalaryMenu(staff);
+            this->finishWorkMenu(staff);
         }
         else if (choice == 4)
         {
-            this->promoteMenu(staff);
+            this->paySalaryMenu(staff);
         }
         else if (choice == 5)
+        {
+            this->promoteMenu(staff);
+        }
+        else if (choice == 6)
         {
             this->demoteMenu(staff);
         }
 
-        else if (choice == 6)
+        else if (choice == 7)
         {
             if (!this->removeAccountMenu(staff)) continue;
             break;
         }
 
-        else if (choice == 7)
+        else if (choice == 8)
         {
             if (!this->quitMenu()) continue;
             break;
@@ -56,13 +60,14 @@ int StaffMenu::displayMain()
     coutTitle("Staff Menu", "=");
     coutContent("1. Information", "=");
     coutContent("2. Add Work Hour Amount", "=");
-    coutContent("3. Pay Salary", "=");
-    coutContent("4. Promote", "=");
-    coutContent("5. Demote", "=");
-    coutContent("6. Remove Account", "=");
-    coutContent("7. Quit", "=");
+    coutContent("3. Finish Work", "=");
+    coutContent("4. Pay Salary", "=");
+    coutContent("5. Promote", "=");
+    coutContent("6. Demote", "=");
+    coutContent("7. Remove Account", "=");
+    coutContent("8. Quit", "=");
     cout << "Enter Choice: ";
-    if (!cinInt(&choice) || choice < 1 || choice > 7)
+    if (!cinInt(&choice) || choice < 1 || choice > 8)
     {
         this->wrongInput();
         return this->displayMain();
@@ -118,6 +123,50 @@ void StaffMenu::displayAddWorkHourAmount(Staff* staff, float addWorkHour)
         cout << "Press any key to continue..." << endl;
         pressAnyKey();
     }
+}
+
+//========================================Finish Work=========================================
+void StaffMenu::finishWorkMenu(Staff* staff)
+{
+    int workChoice = this->displayChooseWork(staff);
+    Work* workUF = staff->getWorkUFs()[workChoice - 1];
+    Manager* manager = ReadManagerFile(to_string(workUF->getManagerId()));
+
+    staff->removeWorkUF(workUF);
+    staff->addWorkDone(workUF);
+    WriteStaffFile(staff);
+
+    manager->removeWorkUF(workUF);
+    manager->addWorkDone(workUF);
+    WriteManagerFile(manager);
+
+    RemoveWorkFile(to_string(workUF->getId()));
+}
+
+int StaffMenu::displayChooseWork(Staff* staff)
+{
+    clearScreen();
+
+    coutTitle("Choose Work You has finished", "=");
+    for (int i = 0; i < staff->getWorkUFs().size(); i++)
+    {
+        Work* workUF = staff->getWorkUFs()[i];
+        coutContent(to_string(i + 1) + ". " + workUF->getName() + " - " + to_string(workUF->getId()), "=");
+        delete workUF;
+    }
+
+    cout << "Enter Choice: ";
+    int choice = -1;
+    if (!cinInt(&choice))
+    {
+        if (choice < 1 || choice > staff->getWorkUFs().size())
+        {
+            this->wrongInput();
+            return this->displayChooseWork(staff);
+        }
+    }
+
+    return choice;
 }
 
 //==========================================Promote===========================================
