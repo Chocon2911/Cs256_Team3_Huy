@@ -46,7 +46,7 @@ class StaffMenu
     void displayAcceptDemote();
 
     // Pay Salary
-    bool displayPaySalary(string workHourAmount);
+    bool displayPaySalary(string totalSalary);
     void displayAcceptPaySalary();
     void displayRefusePaySalary();
 

@@ -40,7 +40,7 @@ class ManagerMenu
     Work* displayCreateNewWork(Manager*);
 
     //Pay salary
-    bool displayPaySalary();
+    bool displayPaySalary(string totalSalary);
     void displayAcceptPaySalary();
     void displayRefusePaySalary();
 

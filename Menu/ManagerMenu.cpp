@@ -71,7 +71,11 @@ void ManagerMenu::displayAddWorkHour(Manager* manager, float addWorkHour)
     clearScreen();
 
     string workHourStr = "_____";
-    if (addWorkHour > 0) workHourStr = to_string(addWorkHour);
+    if (addWorkHour > 0) 
+    {
+        workHourStr = to_string(addWorkHour);
+        removeLast4Char(&workHourStr);
+    }
 
     coutTitle("Add Work Hour Amount", "=");
     coutContent("Add Work Hour Amoount: " + workHourStr + " (hour)", "=");
@@ -111,7 +115,11 @@ void ManagerMenu::displaySetMoneyPerWorkHour(Manager* manager, float moneyPerWor
     coutTitle("Set Money Per Work Hour", "=");
     if (moneyPerWorkHour > 0)
     {
-        coutContent("Money Per Work Hour: " + to_string(moneyPerWorkHour), "=");
+        string moneyPerWorkHourStr = to_string(moneyPerWorkHour);
+        removeLast4Char(&moneyPerWorkHourStr);
+
+        coutContent("Money Per Work Hour: " + moneyPerWorkHourStr, "=");
+
         manager->setMoneyPerHour(moneyPerWorkHour);
         WriteManagerFile(manager);
         this->displayPressAnyKey();
@@ -286,6 +294,7 @@ Work* ManagerMenu::displayCreateNewWork(Manager* manager)
             }
 
             bonusMoneyStr = to_string(bonusMoney);
+            removeLast4Char(&bonusMoneyStr);
 
             id = random8Number();
             idStr = to_string(id);
@@ -306,7 +315,10 @@ Work* ManagerMenu::displayCreateNewWork(Manager* manager)
 //=========================================Pay Salary=========================================
 void ManagerMenu::paySalaryMenu(Manager* manager)
 {
-    bool choice = this->displayPaySalary();
+    string totalSalaryStr = to_string(manager->getSalary());
+    removeLast4Char(&totalSalaryStr);
+
+    bool choice = this->displayPaySalary(totalSalaryStr);
 
     if (choice)
     {
@@ -323,11 +335,12 @@ void ManagerMenu::paySalaryMenu(Manager* manager)
     }
 }
 
-bool ManagerMenu::displayPaySalary()
+bool ManagerMenu::displayPaySalary(string totalSalary)
 {
     clearScreen();
 
     coutTitle("Pay Salary", "=");
+    coutContent("Total Salary: " + totalSalary,"=");
     coutContent("Do you want to pay salary: ", "=");
     coutContent("1. Yes", "=");
     coutContent("2. No", "=");
@@ -342,7 +355,7 @@ bool ManagerMenu::displayPaySalary()
         }
 
         this->displayWrongInput();
-        return this->displayPaySalary();
+        return this->displayPaySalary(totalSalary);
     }
 
     else

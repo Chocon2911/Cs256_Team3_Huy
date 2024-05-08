@@ -98,7 +98,11 @@ void StaffMenu::displayAddWorkHourAmount(Staff* staff, float addWorkHour)
     clearScreen();
 
     string workHourStr = "_____";
-    if (addWorkHour > 0) workHourStr = to_string(addWorkHour);
+    if (addWorkHour > 0) 
+    {
+        workHourStr = to_string(addWorkHour);
+        removeLast4Char(&workHourStr);
+    }
 
     coutTitle("Add Work Hour Amount", "=");
     coutContent("Add Work Hour Amoount: " + workHourStr + " (hour)", "=");
@@ -128,6 +132,14 @@ void StaffMenu::displayAddWorkHourAmount(Staff* staff, float addWorkHour)
 //========================================Finish Work=========================================
 void StaffMenu::finishWorkMenu(Staff* staff)
 {
+    if (staff->getWorkUFs().size() <= 0)
+    {
+        cout << "You don't have any work to finish!" << endl;
+        cout << "Press any key to continue..." << endl;
+        pressAnyKey();
+        return;
+    }
+
     int workChoice = this->displayChooseWork(staff);
     Work* workUF = staff->getWorkUFs()[workChoice - 1];
     Manager* manager = ReadManagerFile(to_string(workUF->getManagerId()));
@@ -186,7 +198,10 @@ void StaffMenu::promoteMenu(Staff* staff)
     LevelCode currLevelCode = staff->getCurrLevel()->getLevelCode();
 
     string nextLevelCreditPointStr = to_string(creditPointRequired2LevelUp);
+
     string nextLevelMoneyPerHourStr = to_string(nextLevelMoneyPerHour);
+    removeLast4Char(&nextLevelMoneyPerHourStr);
+
     string nextLevelCodeStr = getLevelCodeStr(nextLevel->getLevelCode());
 
     bool choice = this->displayPromote(nextLevelCodeStr, nextLevelCreditPointStr, nextLevelMoneyPerHourStr);
@@ -264,9 +279,8 @@ void StaffMenu::displayCantPromote()
 void StaffMenu::demoteMenu(Staff* staff)
 {
     int prevLevelIndex = int(staff->getCurrLevel()->getLevelCode()) - 1;
-    if (prevLevelIndex <= 1)
+    if (prevLevelIndex <= 0)
     {
-        //Can make it upgrade to Manager
         this->displayCantDemote();
         return;
     }
@@ -277,7 +291,10 @@ void StaffMenu::demoteMenu(Staff* staff)
     LevelCode currLevelCode = staff->getCurrLevel()->getLevelCode();
 
     string prevLevelCreditPointStr = to_string(creditPointRequired2LevelUp);
+
     string prevLevelMoneyPerHourStr = to_string(prevLevelMoneyPerHour);
+    removeLast4Char(&prevLevelMoneyPerHourStr);
+
     string prevLevelCodeStr = getLevelCodeStr(prevLevel->getLevelCode());
 
     bool choice = this->displayDemote(prevLevelCodeStr, prevLevelCreditPointStr, prevLevelMoneyPerHourStr);
@@ -359,8 +376,10 @@ void StaffMenu::displayAcceptDemote()
 //=========================================Pay Salary=========================================
 void StaffMenu::paySalaryMenu(Staff* staff)
 {
-    float workHourAmount = staff->getWorkHour();
-    string workHourAmountStr = to_string(workHourAmount);
+    float totalSalary = staff->getSalary();
+
+    string workHourAmountStr = to_string(totalSalary);
+    removeLast4Char(&workHourAmountStr);
 
     bool choice = this->displayPaySalary(workHourAmountStr);
 
@@ -380,11 +399,11 @@ void StaffMenu::paySalaryMenu(Staff* staff)
     }
 }
 
-bool StaffMenu::displayPaySalary(string workHourAmount)
+bool StaffMenu::displayPaySalary(string totalSalary)
 {
     clearScreen();
     coutTitle("Pay Salary", "=");
-    coutContent("Work Hour Amount: " + workHourAmount + " (Hour)", "=");
+    coutContent("Work Hour Amount: " + totalSalary + " (Hour)", "=");
     coutContent("Do you want to pay salary: ", "=");
     coutContent("1. Yes", "=");
     coutContent("2. No", "=");
@@ -393,7 +412,7 @@ bool StaffMenu::displayPaySalary(string workHourAmount)
     if (!cinInt(&choice) || choice < 1 || choice > 2)
     {
         this->wrongInput();
-        return this->displayPaySalary(workHourAmount);
+        return this->displayPaySalary(totalSalary);
     }
 
     else

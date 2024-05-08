@@ -131,7 +131,10 @@ void MainMenu::displayAddNewEmployee(string* job, string* name, int* id, float* 
         }
         else
         {
-            coutContent("Money Per Hour: " + to_string(*moneyPerHour) + "$", "=");
+            string moneyPerHourStr = to_string(*moneyPerHour);
+            removeLast4Char(&moneyPerHourStr);
+
+            coutContent("Money Per Hour: " + moneyPerHourStr + "$", "=");
         }
     }
 
@@ -236,7 +239,7 @@ void MainMenu::modifyEmployeeLevelMenu(vector<EmployeeLevel*> employeeLevels)
 
     int index = this->displayEmployeeLevelTable();
     float moneyPerWorkHour = employeeLevels[index]->getMoneyPerWorkHour();
-    float creditPoint = employeeLevels[index]->getCreditPointRequired();
+    int creditPoint = employeeLevels[index]->getCreditPointRequired();
     EmployeeLevel* newEmployeeLevel = displayModifyEmployeeLevel(employeeLevels, index, moneyPerWorkHour, creditPoint);
     employeeLevels[index] = newEmployeeLevel;
 
@@ -281,9 +284,15 @@ EmployeeLevel* MainMenu::displayModifyEmployeeLevel(vector<EmployeeLevel*> emplo
 
     string levelCodeStr = getLevelCodeStr(employeeLevels[index]->getLevelCode());
 
+    string moneyrPerWorkHourStr = to_string(moneyPerWorkHour);
+    removeLast4Char(&moneyrPerWorkHourStr);
+
+    string creditPointRequiredStr = to_string(creditPointRequired);
+
+
     coutTitle(levelCodeStr, "=");
-    coutContent("Current Money Per Work Hour: " + to_string(moneyPerWorkHour), "=");
-    coutContent("Current Credit Point Required: " + to_string(creditPointRequired), "=");
+    coutContent("Current Money Per Work Hour: " + moneyrPerWorkHourStr, "=");
+    coutContent("Current Credit Point Required: " + creditPointRequiredStr, "=");
     coutTitle("=", "=");
 
     // New Money Per Work Hour
@@ -295,7 +304,7 @@ EmployeeLevel* MainMenu::displayModifyEmployeeLevel(vector<EmployeeLevel*> emplo
         this->displayModifyEmployeeLevel(employeeLevels, index, moneyPerWorkHour, creditPointRequired);
     }
 
-    if (!this->checkIfMoneyPerWorkHourGood(employeeLevels, index, newMoneyPerWorkHour))
+    else if (!this->checkIfMoneyPerWorkHourGood(employeeLevels, index, newMoneyPerWorkHour))
     {
         this->displayWrongInput();
         this->displayModifyEmployeeLevel(employeeLevels, index, moneyPerWorkHour, creditPointRequired);
@@ -310,7 +319,7 @@ EmployeeLevel* MainMenu::displayModifyEmployeeLevel(vector<EmployeeLevel*> emplo
         this->displayModifyEmployeeLevel(employeeLevels, index, moneyPerWorkHour, creditPointRequired);
     }
 
-    if (!this->checkIfCreditPointGood(employeeLevels, index, newCreditPointRequired))
+    else if (!this->checkIfCreditPointGood(employeeLevels, index, newCreditPointRequired))
     {
         this->displayWrongInput();
         this->displayModifyEmployeeLevel(employeeLevels, index, moneyPerWorkHour, creditPointRequired);
