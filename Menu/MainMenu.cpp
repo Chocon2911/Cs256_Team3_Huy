@@ -301,28 +301,29 @@ EmployeeLevel* MainMenu::displayModifyEmployeeLevel(vector<EmployeeLevel*> emplo
     if (!cinFloat(&newMoneyPerWorkHour))
     {
         this->displayWrongInput();
-        this->displayModifyEmployeeLevel(employeeLevels, index, moneyPerWorkHour, creditPointRequired);
+        return this->displayModifyEmployeeLevel(employeeLevels, index, moneyPerWorkHour, creditPointRequired);
     }
 
     else if (!this->checkIfMoneyPerWorkHourGood(employeeLevels, index, newMoneyPerWorkHour))
     {
         this->displayWrongInput();
-        this->displayModifyEmployeeLevel(employeeLevels, index, moneyPerWorkHour, creditPointRequired);
+        return this->displayModifyEmployeeLevel(employeeLevels, index, moneyPerWorkHour, creditPointRequired);
     }
 
     // New Credit Point Required
     int newCreditPointRequired = -1;
     cout << "Enter new Credit Point Required: ";
+
     if (!cinInt(&newCreditPointRequired))
     {
         this->displayWrongInput();
-        this->displayModifyEmployeeLevel(employeeLevels, index, moneyPerWorkHour, creditPointRequired);
+        return this->displayModifyEmployeeLevel(employeeLevels, index, moneyPerWorkHour, creditPointRequired);
     }
 
     else if (!this->checkIfCreditPointGood(employeeLevels, index, newCreditPointRequired))
     {
         this->displayWrongInput();
-        this->displayModifyEmployeeLevel(employeeLevels, index, moneyPerWorkHour, creditPointRequired);
+        return this->displayModifyEmployeeLevel(employeeLevels, index, moneyPerWorkHour, creditPointRequired);
     }
 
     return new EmployeeLevel(employeeLevels[index]->getLevelCode(), newMoneyPerWorkHour, newCreditPointRequired);
@@ -410,7 +411,7 @@ void MainMenu::allInformationMenu(vector<Staff*> staffs, vector<Manager*> manage
 
 void MainMenu::displayManagerIn4(vector<Manager*> managers)
 {
-    cout << "Id - Name - Work Hour - Money Per Hour - Work Done Amount - Unfinshed Work Amount - Not Assigned Work Amount" << endl;
+    cout << "Id - Name - Salary" << endl;
     for (int i = 0; i < managers.size(); i++)
     {
         managers[i]->displayPublicInfo();
@@ -419,7 +420,7 @@ void MainMenu::displayManagerIn4(vector<Manager*> managers)
 
 void MainMenu::displayStaffIn4(vector<Staff*> staffs)
 {
-    cout << "Id - Name - Current Level - Credit Point - Work Hour - Money Per Hour - Work Done - Work Unfinished - Total Money From Work Hour - Total Money from Work Done - Total Salary" << endl;
+    cout << "Id - Name - Current Level - Credit Point - Salary" << endl;
     for (int i = 0; i < staffs.size(); i++)
     {
         staffs[i]->displayPublicInfo();

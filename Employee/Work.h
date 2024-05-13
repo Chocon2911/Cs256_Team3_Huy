@@ -26,4 +26,7 @@ class Work : public Stat
     void setCreditPoint(int creditPoint);
     void setMoney(float money);
     void setManagerId(int managerId);
+
+    //==========================================Display===========================================
+    void displayInformation();
 };

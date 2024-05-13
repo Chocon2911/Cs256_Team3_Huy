@@ -76,43 +76,27 @@ void Staff::displayPrivateInfo()
 
     cout << endl;
     
-    coutTitle("Finished Work: ", "-");
-    cout << "id - name - money" << endl;
+    coutTitle("Finished Work: ", "=");
+    cout << "id - name - credit point - money" << endl;
     
     for (int i = 0; i < this->getWorkDones().size(); i++)
     {
-        string workDoneName = this->getWorkDones()[i]->getName();
-
-        string workDoneMoney = to_string(this->getWorkDones()[i]->getMoney() * 0.3);
-        removeLast4Char(&workDoneMoney);
-        workDoneMoney += "$";
-
-        string workDoneId = to_string(this->getWorkDones()[i]->getId());
-
-        cout << i + 1 << ". " << workDoneId << " - " << workDoneName << " - " << workDoneMoney << endl; 
+        cout << i + 1 << ". ";
+        this->getWorkDones()[i]->displayInformation();    
     }
 
     cout << endl;
 
-    coutTitle("Unfinished Work: ", "-");
-    cout << "id - name - money" << endl;
+    coutTitle("Unfinished Work: ", "=");
+    cout << "id - name - credit point - money" << endl;
 
     for (int i = 0; i < this->getWorkUFs().size(); i++)
     {
-        string workUFName = this->getWorkUFs()[i]->getName();
-
-        string workUFMoney = to_string(this->getWorkUFs()[i]->getMoney() * 0.7);
-        removeLast4Char(&workUFMoney);
-        workUFMoney += "$";
-
-        string workUFId = to_string(this->getWorkUFs()[i]->getId());
-
-        cout << i + 1 << ". " << workUFId << " - " << workUFName << " - " << workUFMoney << endl;
+        cout << i + 1 << ". ";
+        this->getWorkUFs()[i]->displayInformation();
     }
 
-    coutContent("=", "=");
-
-    coutTitle("Press any key to continue", "=");
+    cout << "Press any key to continue" << endl;
     pressAnyKey();
 }
 
@@ -123,26 +107,12 @@ void Staff::displayPublicInfo()
     string currCreditPointStr = to_string(this->getCurrLevel()->getCurrCreditPoint());
     string currLevelStr = getLevelCodeStr(this->getCurrLevel()->getLevelCode());
 
-    string workHourStr = to_string(this->getWorkHour());
-    removeLast4Char(&workHourStr);
-
-    string moneyPerHourStr = to_string(this->getMoneyPerHour());
-    removeLast4Char(&moneyPerHourStr);
-
-    string workDoneAmount = to_string(this->getWorkDones().size());
-    string workUFAmount = to_string(this->getWorkUFs().size());
-
-    string totalMoneyFromWorkHour = to_string(this->getTotalMoneyFromWorkHour());
-    removeLast4Char(&totalMoneyFromWorkHour);
-
-    string totalMoneyFromWorkDone = to_string(this->getTotalMoneyFromWork());
-    removeLast4Char(&totalMoneyFromWorkDone);
-
     string totalSalary = to_string(this->getSalary()); 
     removeLast4Char(&totalSalary);
+    totalSalary += "$";
 
-    // cout << "Id - Name - Credit Point - Current Level - Work Hour - Money Per Hour - Work Done - Work Unfinished - Total Money From Work Hour - Total Money from Work Done - Total Salary" << endl;
-    cout << idStr + " - " + nameStr + " - " + currLevelStr + " - " + workHourStr + " - " + moneyPerHourStr + " - " + currCreditPointStr + " - " + workDoneAmount + " - " + workUFAmount + " - " + totalMoneyFromWorkHour + " - " + totalMoneyFromWorkDone + " - " + totalSalary << endl;
+    // cout << "Id - Name - Current Level - Credit Point - Total Salary" << endl;
+    cout << idStr + " - " + nameStr + " - " + currLevelStr + " - " + currCreditPointStr + " - " + totalSalary << endl;
 }
 
 //==========================================Account===========================================

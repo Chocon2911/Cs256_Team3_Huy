@@ -51,3 +51,18 @@ void Work::setManagerId(int managerId)
 {
     this->managerId = managerId;
 }
+
+//==========================================Display===========================================
+void Work::displayInformation() 
+{
+    string idStr = to_string(this->getId());
+    string nameStr = this->getName();
+
+    string moneyStr = to_string(this->getMoney());
+    removeLast4Char(&moneyStr);
+    moneyStr += "$";
+
+    string creditPointStr = to_string(this->getCreditPoint());
+
+    cout << idStr << " - " << nameStr << " - " << creditPointStr << " - " << moneyStr << endl;
+}
