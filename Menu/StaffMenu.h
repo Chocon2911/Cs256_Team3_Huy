@@ -8,6 +8,9 @@ using namespace std;
 
 class StaffMenu
 {
+    private:
+    Staff* staff;
+
     public:
     //============================================Menu============================================
     void mainMenu(Staff* staff);

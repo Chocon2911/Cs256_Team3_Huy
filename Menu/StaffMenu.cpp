@@ -84,6 +84,7 @@ void StaffMenu::informationMenu(Staff* staff)
 
 void StaffMenu::displayInformation(Staff* staff)
 {
+    clearScreen();
     staff->displayPrivateInfo();
 }
 
