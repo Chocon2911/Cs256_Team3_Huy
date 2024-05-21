@@ -238,9 +238,9 @@ Work* ManagerMenu::displayCreateNewWork(Manager* manager)
     {
         clearScreen();
 
-        if (bonusCreditPoint <= 0) bonusCreditPointStr = "_____";
-        if (bonusMoney <= 0) bonusMoneyStr = "_____";
-        if (id <= 0) idStr = "_____";
+        if (bonusCreditPoint <= -1) bonusCreditPointStr = "_____";
+        if (bonusMoney <= -1) bonusMoneyStr = "_____";
+        if (id <= -1) idStr = "_____";
 
         coutTitle("Create New Work", "=");
         coutContent("Manager Id: " + managerIdStr, "=");

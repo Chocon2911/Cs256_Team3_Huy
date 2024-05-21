@@ -50,6 +50,7 @@ int MainMenu::addNewEmployeeMenu()
     LevelCode levelCode = LevelCode::Zero;
 
     this->displayAddNewEmployee(&job, &name, &id, &moneyPerHour, &levelCode);
+    
     if (job == "Exit")
     {
         return 0;

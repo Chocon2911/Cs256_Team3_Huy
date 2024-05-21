@@ -193,6 +193,7 @@ void StaffMenu::promoteMenu(Staff* staff)
         return;
     }
 
+    // initialize next Level variable
     EmployeeLevel* nextLevel = staff->getCurrLevel()->getEmployeeLevels()[nextLevelIndex - 1];
     int creditPointRequired2LevelUp = nextLevel->getCreditPointRequired();
     float nextLevelMoneyPerHour = nextLevel->getMoneyPerWorkHour(); 
@@ -204,7 +205,8 @@ void StaffMenu::promoteMenu(Staff* staff)
     removeLast4Char(&nextLevelMoneyPerHourStr);
 
     string nextLevelCodeStr = getLevelCodeStr(nextLevel->getLevelCode());
-
+    
+    
     bool choice = this->displayPromote(nextLevelCodeStr, nextLevelCreditPointStr, nextLevelMoneyPerHourStr);
 
     if (!choice)
